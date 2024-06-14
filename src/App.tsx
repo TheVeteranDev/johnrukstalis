@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import { getUrl, GetUrlWithPathInput } from "aws-amplify/storage";
 
 const client = generateClient<Schema>();
 
@@ -11,10 +12,23 @@ function App() {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
+
+    getEarthTexture();
   }, []);
 
   function createTodo() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
+  }
+
+  const deleteTodo = (id: string) => {
+    client.models.Todo.delete({ id });
+  }
+  const getEarthTexture = async () => {
+    const path: GetUrlWithPathInput = {
+      path: "earth8k.jpeg",
+    };
+    const url = await getUrl(path);
+    console.log(url);
   }
 
   return (
@@ -23,7 +37,7 @@ function App() {
       <button onClick={createTodo}>+ new</button>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+          <li key={todo.id} onClick={() => deleteTodo(todo.id)}>{todo.content}</li>
         ))}
       </ul>
       <div>
