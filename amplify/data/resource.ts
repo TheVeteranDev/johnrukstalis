@@ -14,9 +14,9 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey()]),
   Planet: a
     .model({
-      name: a.string(),
-      radius: a.float(),
-      mapPath: a.string(),
+      name: a.string().required(),
+      radius: a.float().required(),
+      mapPath: a.string().required(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
