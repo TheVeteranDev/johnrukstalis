@@ -8,8 +8,7 @@ export default function Sphere(props: SphereProps) {
         <mesh>
             <sphereGeometry args={[props.radius, props.widthSegments, props.heightSegments]}></sphereGeometry>
             <meshStandardMaterial
-                attach="material"
-                wireframeLinewidth={1}
+                wireframeLinewidth={10}
                 wireframe={props.mapUrl ? false : true}
                 map={map}>
             </meshStandardMaterial>
