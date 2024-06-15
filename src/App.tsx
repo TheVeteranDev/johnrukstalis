@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // import { generateClient } from "aws-amplify/data";
 import { downloadData } from "aws-amplify/storage";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Plane, Stars } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import Sphere from "./components/sphere/Sphere";
 import { SphereProps } from "./components/sphere/SphereProps";
 import { Planets } from "./models/Planets";
