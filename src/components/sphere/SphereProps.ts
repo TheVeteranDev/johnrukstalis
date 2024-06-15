@@ -1,3 +1,4 @@
 export interface SphereProps {
-    mapUrl: string;
+    map?: string;
+
 }
