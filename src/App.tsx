@@ -31,11 +31,11 @@ function App() {
   // }
 
   const getEarthTextures = async (): Promise<void> => {
-    const result2 = await downloadData({
+    const response = await downloadData({
       path: Planets.Earth.MAP_PATH.valueOf(),
     }).result;
 
-    const mapUrl = URL.createObjectURL(await result2.body.blob());
+    const mapUrl = URL.createObjectURL(await response.body.blob());
     setEarthProps({
       radius: Planets.Earth.RADIUS.valueOf() / Planets.Earth.RADIUS.valueOf(),
       mapUrl: mapUrl,
