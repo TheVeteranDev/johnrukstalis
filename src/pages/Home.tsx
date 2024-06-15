@@ -9,23 +9,34 @@ import { Services } from "../services/services";
 
 export default function Home() {
     const [earthProps, setEarthProps] = useState<SphereProps>({});
+    const [cloudProps, setCloudProps] = useState<SphereProps>({});
 
     useEffect(() => {
-        getEarthTextures();
+        getTextures(Planets.EARTH);
+        getTextures(Planets.CLOUDS);
     }, []);
 
-    const getEarthTextures = async (): Promise<void> => {
-        const response = await Services.client.models.Planet.list({ filter: { name: { eq: Planets.EARTH } } });
+    const getTextures = async (planet: Planets): Promise<void> => {
+        const response = await Services.client.models.Planet.list({ filter: { name: { eq: planet } } });
 
         const image = await downloadData({
             path: response.data[0].mapPath,
         }).result;
 
         const mapUrl = URL.createObjectURL(await image.body.blob());
-        setEarthProps({
+        const props: SphereProps = {
             radius: response.data[0].radius / response.data[0].radius,
             mapUrl: mapUrl,
-        });
+        };
+
+        if (planet === Planets.EARTH) {
+            setEarthProps(props);
+        }
+
+        if (planet === Planets.CLOUDS) {
+            props.radius! += 0.02;
+            setCloudProps(props);
+        }
     }
 
     return (
@@ -36,7 +47,8 @@ export default function Home() {
                     <ambientLight intensity={0.2}></ambientLight>
                     <pointLight position={[10, 0, 0]} intensity={200.0}></pointLight>
                     <Stars></Stars>
-                    <Sphere mapUrl={earthProps.mapUrl} radius={earthProps.radius}></Sphere>
+                    <Sphere mapUrl={earthProps.mapUrl} radius={earthProps.radius} ></Sphere>
+                    <Sphere mapUrl={cloudProps.mapUrl} radius={cloudProps.radius} transparent={true} opacity={0.25}></Sphere>
                 </Canvas>
             </div>
         </section>

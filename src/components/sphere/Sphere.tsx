@@ -8,7 +8,9 @@ export default function Sphere(props: SphereProps) {
         <mesh>
             <sphereGeometry args={[props.radius, props.widthSegments, props.heightSegments]}></sphereGeometry>
             <meshStandardMaterial
-                wireframeLinewidth={10}
+                color={props.color}
+                transparent={props.transparent}
+                opacity={props.opacity}
                 wireframe={props.mapUrl ? false : true}
                 map={map}>
             </meshStandardMaterial>
