@@ -6,6 +6,7 @@ import { Canvas } from "@react-three/fiber";
 // import * as THREE from "three";
 import { OrbitControls, Stars } from "@react-three/drei";
 import Sphere from "./components/sphere/Sphere";
+import { Planets } from "./models/Planets";
 
 // const client = generateClient<Schema>();
 
@@ -48,7 +49,7 @@ function App() {
           <OrbitControls></OrbitControls>
           <ambientLight intensity={1.0}></ambientLight>
           <Stars></Stars>
-          <Sphere mapUrl={"public/earth8k.jpeg"}></Sphere>
+          <Sphere mapUrl={Planets.Earth.COLOR_MAP}></Sphere>
         </Canvas>
       </div>
     </main>
