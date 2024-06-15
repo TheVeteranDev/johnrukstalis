@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import { SphereProps } from "../components/sphere/SphereProps";
 import { downloadData } from "aws-amplify/storage";
-import { Planets } from "../models/Planets";
+import { Planets, EARTH_RADIUS } from "../models/Planets";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import Sphere from "../components/sphere/Sphere";
 import { Services } from "../services/services";
+import { get } from "aws-amplify/api";
 
 export default function Home() {
     const [earthProps, setEarthProps] = useState<SphereProps>({});
     const [cloudProps, setCloudProps] = useState<SphereProps>({});
+    const [moonProps, setMoonProps] = useState<SphereProps>({});
 
     useEffect(() => {
         getTextures(Planets.EARTH);
         getTextures(Planets.CLOUDS);
+        getTextures(Planets.MOON);
     }, []);
 
     const getTextures = async (planet: Planets): Promise<void> => {
@@ -25,7 +28,7 @@ export default function Home() {
 
         const mapUrl = URL.createObjectURL(await image.body.blob());
         const props: SphereProps = {
-            radius: response.data[0].radius / response.data[0].radius,
+            radius: response.data[0].radius / EARTH_RADIUS,
             mapUrl: mapUrl,
         };
 
@@ -37,6 +40,10 @@ export default function Home() {
             props.radius! += 0.02;
             setCloudProps(props);
         }
+
+        if (planet === Planets.MOON) {
+            setMoonProps(props);
+        }
     }
 
     return (
@@ -45,10 +52,11 @@ export default function Home() {
                 <Canvas>
                     <OrbitControls autoRotate autoRotateSpeed={0.2}></OrbitControls>
                     <ambientLight intensity={0.2}></ambientLight>
-                    <pointLight position={[10, 0, 0]} intensity={200.0}></pointLight>
+                    <pointLight position={[50, 0, 0]} intensity={5000.0}></pointLight>
                     <Stars></Stars>
                     <Sphere mapUrl={earthProps.mapUrl} radius={earthProps.radius} ></Sphere>
                     <Sphere mapUrl={cloudProps.mapUrl} radius={cloudProps.radius} transparent={true} opacity={0.25}></Sphere>
+                    <Sphere mapUrl={moonProps.mapUrl} radius={moonProps.radius} position={[2, 0, 1.5]}></Sphere>
                 </Canvas>
             </div>
         </section>
