@@ -6,7 +6,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import Sphere from "../components/sphere/Sphere";
 import { Services } from "../services/services";
-import { get } from "aws-amplify/api";
 
 export default function Home() {
     const [earthProps, setEarthProps] = useState<SphereProps>({});
