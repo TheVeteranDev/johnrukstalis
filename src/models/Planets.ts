@@ -1,7 +1,6 @@
-import { Textures } from "./Textures";
-
 export namespace Planets {
     export enum Earth {
-        COLOR_MAP = Textures.Earth.COLOR_MAP,
+        MAP_PATH = "assets/earth8k.jpeg",
+        RADIUS = 6371,
     }
 }

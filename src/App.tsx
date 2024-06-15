@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 // import { generateClient } from "aws-amplify/data";
 import { downloadData } from "aws-amplify/storage";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls, Plane, Stars } from "@react-three/drei";
 import Sphere from "./components/sphere/Sphere";
 import { SphereProps } from "./components/sphere/SphereProps";
+import { Planets } from "./models/Planets";
 
 // const client = generateClient<Schema>();
 
@@ -31,22 +32,25 @@ function App() {
 
   const getEarthTextures = async (): Promise<void> => {
     const result2 = await downloadData({
-      path: "assets/earth8k.jpeg",
+      path: Planets.Earth.MAP_PATH.valueOf(),
     }).result;
 
-    const map = URL.createObjectURL(await result2.body.blob());
-    setEarthProps({ map: map });
+    const mapUrl = URL.createObjectURL(await result2.body.blob());
+    setEarthProps({
+      radius: Planets.Earth.RADIUS.valueOf() / Planets.Earth.RADIUS.valueOf(),
+      mapUrl: mapUrl,
+    });
   }
 
   return (
     <main className="container-fluid">
       <div style={{ height: "100vh" }}>
         <Canvas>
-          <OrbitControls></OrbitControls>
+          <OrbitControls autoRotate autoRotateSpeed={0.2}></OrbitControls>
           <ambientLight intensity={0.2}></ambientLight>
           <pointLight position={[10, 0, 0]} intensity={200.0}></pointLight>
           <Stars></Stars>
-          <Sphere map={earthProps.map}></Sphere>
+          <Sphere mapUrl={earthProps.mapUrl} radius={earthProps.radius}></Sphere>
         </Canvas>
       </div>
     </main>
