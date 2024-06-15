@@ -48,7 +48,7 @@ function App() {
           <OrbitControls></OrbitControls>
           <ambientLight intensity={1.0}></ambientLight>
           <Stars></Stars>
-          <Sphere mapUrl={"src/assets/earth8k.jpeg"}></Sphere>
+          <Sphere mapUrl={"public/earth8k.jpeg"}></Sphere>
         </Canvas>
       </div>
     </main>
