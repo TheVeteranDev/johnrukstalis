@@ -3,9 +3,8 @@ import { defineStorage } from '@aws-amplify/backend';
 export const storage = defineStorage({
     name: 'johnrukstalis-storage',
     access: (allow) => ({
-        'profile-pictures/{entity_id}/*': [
-            allow.guest.to(['read']),
-            allow.entity('identity').to(['read', 'write', 'delete'])
+        'assets/*': [
+            allow.guest.to(['read'])
         ],
         'picture-submissions/*': [
             allow.authenticated.to(['read', 'write']),
