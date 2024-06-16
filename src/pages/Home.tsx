@@ -54,7 +54,16 @@ export default function Home() {
                     <pointLight position={[50, 0, 0]} intensity={5000.0}></pointLight>
                     <Stars></Stars>
                     <Sphere mapUrl={earthProps.mapUrl} radius={earthProps.radius} ></Sphere>
-                    <Sphere mapUrl={cloudProps.mapUrl} radius={cloudProps.radius} transparent={true} opacity={0.25}></Sphere>
+
+                    <Sphere
+                        mapUrl={cloudProps.mapUrl}
+                        radius={cloudProps.radius}
+                        transparent={true}
+                        opacity={0.25}
+                        rotationSpeedX={0.0005}
+                        rotationSpeedY={0.0005}>
+                    </Sphere>
+
                     <Sphere mapUrl={moonProps.mapUrl} radius={moonProps.radius} position={[2, 0, 1.5]}></Sphere>
                 </Canvas>
             </div>
