@@ -13,13 +13,17 @@ export default function Home() {
     const [moonProps, setMoonProps] = useState<SphereProps>({});
 
     useEffect(() => {
-        getTextures(Planets.EARTH);
-        getTextures(Planets.CLOUDS);
-        getTextures(Planets.MOON);
+        getTextures(Planets.EARTH).then((props) => setEarthProps(props));
+        getTextures(Planets.CLOUDS).then((props) => setCloudProps(props));
+        getTextures(Planets.MOON).then((props) => setMoonProps(props));
     }, []);
 
-    const getTextures = async (planet: Planets): Promise<void> => {
+    const getTextures = async (planet: Planets): Promise<SphereProps> => {
         const response = await Services.client.models.Planet.list({ filter: { name: { eq: planet } } });
+
+        if (!response.data || response.data.length === 0) {
+            throw new Error(`No data found for planet ${planet}`);
+        }
 
         const image = await downloadData({
             path: response.data[0].mapPath,
@@ -31,18 +35,7 @@ export default function Home() {
             mapUrl: mapUrl,
         };
 
-        if (planet === Planets.EARTH) {
-            setEarthProps(props);
-        }
-
-        if (planet === Planets.CLOUDS) {
-            props.radius! += 0.02;
-            setCloudProps(props);
-        }
-
-        if (planet === Planets.MOON) {
-            setMoonProps(props);
-        }
+        return props;
     }
 
     return (
