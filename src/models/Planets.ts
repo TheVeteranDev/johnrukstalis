@@ -4,4 +4,4 @@ export enum Planets {
     MOON = "Moon",
 }
 
-export const EARTH_RADIUS = 6371;
+export const EARTH_RADIUS = 3958.8;
